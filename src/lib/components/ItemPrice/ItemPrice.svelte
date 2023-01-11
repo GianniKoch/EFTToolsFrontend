@@ -2,10 +2,12 @@
     import ItemPriceHeader from "./ItemPriceHeader.svelte";
     import ItemPriceTable from "./ItemPriceTable.svelte";
 
+    export let sell
+
     let query
 </script>
 
-<ItemPriceHeader bind:query/>
+<ItemPriceHeader bind:query {sell}/>
 {#if query !== undefined && query.length !== 0}
-    <ItemPriceTable bind:query/>
+    <ItemPriceTable bind:query {sell}/>
 {/if}

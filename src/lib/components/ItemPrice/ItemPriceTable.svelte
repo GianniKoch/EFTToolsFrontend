@@ -5,11 +5,12 @@
     import {SpinLine} from "svelte-loading-spinners";
 
     export let query;
+    export let sell;
     let items;
 
-    $: if (query) {
-        getItems().then(list => items = list.filter(filterItem))
-    }
+    $: query && getItems().then(list => items = list.filter(filterItem))
+
+    setInterval(() => getItems().then(list => items = list.filter(filterItem)), 1000*60*2.5)
 
     function filterItem(item) {
         const trimmedQuery = trimText(query);
@@ -18,7 +19,7 @@
 
     }
 
-    function trimText(text){
+    function trimText(text) {
         return text.trim().toLowerCase().replace(/\s+/g, '')
     }
 </script>
@@ -38,17 +39,22 @@
         </div>
     </div>
 {:else}
-    <table in:fade="{{ delay: 400}}">
-        <thead>
-        <tr>
-            <th>Item</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        {#each items as item}
-            <ItemPriceRow {item}/>
-        {/each}
-        </tbody>
-    </table>
+    <div class="mx-10 grid justify-center">
+
+        <table class="table" in:fade="{{ delay: 400}}">
+            <thead>
+            <tr>
+                <th>Item</th>
+                <th>Best price</th>
+                <th>2nd price</th>
+                <th>3th price</th>
+            </tr>
+            </thead>
+            <tbody>
+            {#each items.slice(0, 50) as item}
+                <ItemPriceRow {item} {sell}/>
+            {/each}
+            </tbody>
+        </table>
+    </div>
 {/if}
