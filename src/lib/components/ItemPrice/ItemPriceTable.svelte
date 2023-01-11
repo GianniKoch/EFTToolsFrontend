@@ -1,6 +1,7 @@
 <script>
+    import {fade} from 'svelte/transition';
     import ItemPriceRow from "./ItemPriceRow.svelte";
-    import {getItems} from "../../services/BackendService.js";
+    import {getItems} from "../../../services/BackendService.js";
     import {SpinLine} from "svelte-loading-spinners";
 
     export let query;
@@ -24,20 +25,20 @@
 
 
 {#if query.length !== 0 && items === undefined}
-    <div class="flex justify-center mt-32">
+    <div class="flex justify-center mt-32" in:fade="{{ delay: 400}}">
         <div>
             <SpinLine size="60" color="#efefef" unit="px"/>
             <p class="mt-8">Loading...</p>
         </div>
     </div>
 {:else if query.length !== 0 && items.length === 0}
-    <div class="flex justify-center mt-32">
+    <div class="flex justify-center mt-32" in:fade="{{ delay: 400}}">
         <div>
             <p class="mt-8">No items found</p>
         </div>
     </div>
 {:else}
-    <table>
+    <table in:fade="{{ delay: 400}}">
         <thead>
         <tr>
             <th>Item</th>
